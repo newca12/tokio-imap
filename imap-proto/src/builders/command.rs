@@ -244,6 +244,7 @@ impl FetchCommand<fetch::Attributes> {
 fn push_attr(cmd: &mut Vec<u8>, attr: Attribute) {
     cmd.extend(
         match attr {
+            Attribute::Binary => "BINARY",
             Attribute::Body => "BODY",
             Attribute::Envelope => "ENVELOPE",
             Attribute::Flags => "FLAGS",

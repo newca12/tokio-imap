@@ -304,6 +304,7 @@ impl<'a> Capability<'a> {
 #[derive(Debug, Eq, PartialEq)]
 #[non_exhaustive]
 pub enum Attribute {
+    Binary, // RFC 3516, section 4.3
     Body,
     Envelope,
     Flags,

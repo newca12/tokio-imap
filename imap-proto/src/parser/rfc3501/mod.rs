@@ -25,7 +25,7 @@ use crate::{
     types::*,
 };
 
-use super::gmail;
+use super::{gmail, rfc3516};
 
 pub mod body;
 pub mod body_structure;
@@ -547,6 +547,7 @@ fn msg_att_uid(i: &[u8]) -> IResult<&[u8], AttributeValue> {
 //                     ; MUST NOT change for a message
 fn msg_att(i: &[u8]) -> IResult<&[u8], AttributeValue> {
     alt((
+        rfc3516::msg_att_binary_section,
         msg_att_body_section,
         msg_att_body_structure,
         msg_att_envelope,
