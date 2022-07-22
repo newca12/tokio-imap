@@ -108,6 +108,7 @@ pub enum Capability<'a> {
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum Attribute {
+    Binary,
     Body,
     Envelope,
     Flags,

@@ -63,3 +63,17 @@ named!(pub msg_att_body_section<AttributeValue>, do_parse!(
     data: nstring >>
     (AttributeValue::BodySection { section, index, data })
 ));
+
+named!(pub msg_att_binary_section<AttributeValue>, do_parse!(
+    tag_no_case!("BINARY") >>
+    section: section >>
+    index: opt!(do_parse!(
+        tag!("<") >>
+        num: number >>
+        tag!(">") >>
+        (num)
+    )) >>
+    tag!(" ~") >>
+    data: nstring >>
+    (AttributeValue::BodySection { section, index, data })
+));

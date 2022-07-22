@@ -418,6 +418,7 @@ named!(msg_att_uid<AttributeValue>, do_parse!(
 
 named!(msg_att<AttributeValue>, alt!(
     msg_att_body_section |
+    msg_att_binary_section |
     msg_att_body_structure |
     msg_att_envelope |
     msg_att_internal_date |
@@ -637,6 +638,26 @@ mod tests {
     fn test_uid_fetch() {
         match parse_response(b"* 4 FETCH (UID 71372 RFC822.HEADER {10275}\r\n") {
             Err(nom::Err::Incomplete(nom::Needed::Size(10275))) => {},
+            rsp => panic!("unexpected response {:?}", rsp),
+        }
+    }
+
+    #[test]
+    fn test_fetch_uid_body() {
+        const RESPONSE: &[u8] = b"* 43 FETCH (UID 130499 BODY[1] {21}\r\nChat-Version: 1.0\r\n\r\n)\r\n";
+
+        match parse_response(RESPONSE) {
+            Ok((_, Response::Fetch(_, _))) => {},
+            rsp => panic!("unexpected response {:?}", rsp),
+        }
+    }
+
+    #[test]
+    fn test_fetch_uid_binary() {
+        const RESPONSE: &[u8] = b"* 43 FETCH (UID 130499 BINARY[1] ~{21}\r\nChat-Version: 1.0\r\n\r\n)\r\n";
+
+        match parse_response(RESPONSE) {
+            Ok((_, Response::Fetch(_, _))) => {},
             rsp => panic!("unexpected response {:?}", rsp),
         }
     }

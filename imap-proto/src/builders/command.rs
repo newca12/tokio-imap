@@ -180,6 +180,7 @@ where
         let FetchCommandAttributes { mut args } = self.prepare();
         args.extend(
             match attr {
+                Attribute::Binary => "BINARY",
                 Attribute::Body => "BODY",
                 Attribute::Envelope => "ENVELOPE",
                 Attribute::Flags => "FLAGS",
